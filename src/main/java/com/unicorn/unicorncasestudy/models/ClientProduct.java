@@ -22,6 +22,7 @@ public class ClientProduct {
     @JoinColumn(name = "productKey")
     private Product product;
     private Double balance;
+    private Integer daysUntilPayment;
 
     public ClientProduct(Client client, Product product, Double balance) {
         this.client = client;
