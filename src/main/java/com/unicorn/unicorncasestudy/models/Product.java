@@ -1,8 +1,6 @@
 package com.unicorn.unicorncasestudy.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,9 +17,24 @@ public class Product {
     private String productKey;
     private String description;
     private String type;
-    private BigDecimal rate;
-    private String payRateUnit;
-    private String payRateValue;
+    private Double rate;
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private PayRate payRate;
     @OneToMany(mappedBy = "product")
     private List<ClientProduct> clientProducts;
+
+    public Product(String productKey, String description, String type, Double rate, PayRate payRate) {
+        this.productKey = productKey;
+        this.description = description;
+        this.type = type;
+        this.rate = rate;
+        this.payRate = payRate;
+    }
+
+    public Product(String productKey, String description, String type, Double rate) {
+        this.productKey = productKey;
+        this.description = description;
+        this.type = type;
+        this.rate = rate;
+    }
 }
