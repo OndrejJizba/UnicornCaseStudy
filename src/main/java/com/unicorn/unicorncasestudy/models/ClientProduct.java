@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,7 +22,17 @@ public class ClientProduct {
     @JoinColumn(name = "productKey")
     private Product product;
     private Double balance;
-    private Integer daysUntilPayment;
+    private LocalDate createdAt;
+    private LocalDate nextPayment;
+
+    @PrePersist
+    protected void onCreate(){
+        createdAt = LocalDate.now();
+        String unit = product.getPayRateUnit();
+        int value = Integer.parseInt(product.getPayRateValue());
+        if (unit.equals("DAY")) nextPayment = createdAt.plusDays(value);
+        else if (unit.equals("MONTH")) nextPayment = createdAt.plusDays(value * 30L);
+    }
 
     public ClientProduct(Client client, Product product, Double balance) {
         this.client = client;

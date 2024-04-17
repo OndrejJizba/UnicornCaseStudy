@@ -1,9 +1,10 @@
 package com.unicorn.unicorncasestudy.services;
 
-import com.unicorn.unicorncasestudy.models.Client;
+import com.unicorn.unicorncasestudy.models.ClientProduct;
 import com.unicorn.unicorncasestudy.models.Product;
 
 public interface ClientService {
     void feePayment();
-    void countDaysUntilPayment(Client client, Product product);
+    double calculatePaymentAmount(Product product);
+    void updateNextPayment(ClientProduct clientProduct, String unit, int value);
 }

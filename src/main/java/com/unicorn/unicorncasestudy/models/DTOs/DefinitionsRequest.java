@@ -1,6 +1,5 @@
 package com.unicorn.unicorncasestudy.models.DTOs;
 
-import com.unicorn.unicorncasestudy.models.PayRate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
