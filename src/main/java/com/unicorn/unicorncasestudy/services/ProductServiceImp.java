@@ -1,6 +1,7 @@
 package com.unicorn.unicorncasestudy.services;
 
 import com.unicorn.unicorncasestudy.models.DTOs.DefinitionsRequest;
+import com.unicorn.unicorncasestudy.models.DerivedProduct;
 import com.unicorn.unicorncasestudy.models.Product;
 import com.unicorn.unicorncasestudy.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,23 @@ public class ProductServiceImp implements ProductService {
                 }
             }
         }
+    }
+
+    @Override
+    public void changeRateAndCreateDerivedProduct(String productKey, Double newRate) {
+        Product product = productRepository.findByProductKeyForProductType(productKey);
+        DerivedProduct derivedProduct = new DerivedProduct(product);
+        try {
+            if (product.getType().equals("ACCOUNT")) {
+                if (newRate >= 0 && newRate >= product.getRate() - 250 && newRate <= product.getRate() + 250) derivedProduct.setRate(newRate);
+                else throw new IllegalArgumentException("The new rate does not comply with the modification rules.");
+            } else if (product.getType().equals("LOAN")) {
+                if (newRate >= 0 && newRate >= product.getRate() * 0.8 && newRate <= product.getRate() * 1.2) derivedProduct.setRate(newRate);
+                else throw new IllegalArgumentException("The new rate does not comply with the modification rules.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        productRepository.save(derivedProduct);
     }
 }

@@ -19,7 +19,7 @@ public class ClientProduct {
     @JoinColumn(name = "client_id")
     private Client client;
     @ManyToOne
-    @JoinColumn(name = "productKey")
+    @JoinColumn(name = "product_id")
     private Product product;
     private Double balance;
     private LocalDate createdAt;
