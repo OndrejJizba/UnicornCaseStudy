@@ -32,20 +32,18 @@ public class ClientServiceImp implements ClientService {
         }
     }
 
-    @Override
-    public double calculatePaymentAmount(Product product) {
+    private double calculatePaymentAmount(Product product) {
         if (product.getType().equals("ACCOUNT")) return product.getRate();
         else if (product.getType().equals("LOAN")) {
-            double fixedPayment = 100;
-            double originalLoan = 2000;
-            int numberOfPayments = 10;
+            double fixedPayment = 100; //test data, don't have information about this in database
+            double originalLoan = 2000; //test data, don't have information about this in database
+            int numberOfPayments = 10; //test data, don't have information about this in database
             return fixedPayment + (originalLoan * product.getRate()) / numberOfPayments;
         }
         return 0;
     }
 
-    @Override
-    public void updateNextPayment(ClientProduct clientProduct, String unit, int value) {
+    private void updateNextPayment(ClientProduct clientProduct, String unit, int value) {
         LocalDate nextPayment;
         if (unit.equals("DAY")) nextPayment = LocalDate.now().plusDays(value);
         else if (unit.equals("MONTH")) nextPayment = LocalDate.now().plusDays(value * 30L);

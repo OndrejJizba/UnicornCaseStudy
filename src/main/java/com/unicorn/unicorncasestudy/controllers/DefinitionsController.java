@@ -19,7 +19,7 @@ public class DefinitionsController {
         this.productService = productService;
     }
 
-    @Operation(summary = "Handle the definitions accepted by the API", description = "This endpoint handles the definition sent by the API. It either adds a new products to the database or updates the existing ones.")
+    @Operation(summary = "Handle the definitions accepted by the API", description = "This endpoint handles the definitions sent by the API. It either adds new products to the database or updates the existing ones.")
     @ApiResponse(responseCode = "200", description = "Data was accepted and processed. Error codes can be seen in the stack trace.")
     @PostMapping("/definitions")
     public ResponseEntity<?> handleDefinitions(@RequestBody DefinitionsRequest request) {
