@@ -24,6 +24,9 @@ public class ClientProduct {
     private Double balance;
     private LocalDate createdAt;
     private LocalDate nextPayment;
+    private Double fixedPayment;
+    private Double originalLoan;
+    private Integer numberOfPayments;
 
     @PrePersist
     protected void onCreate(){
