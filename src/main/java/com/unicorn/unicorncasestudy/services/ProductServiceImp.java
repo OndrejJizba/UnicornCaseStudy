@@ -23,10 +23,20 @@ public class ProductServiceImp implements ProductService {
         List<String> errors = new ArrayList<>();
         try {
             for (DefinitionsRequest.ProductDefinitions def : request.getDefinitions()) {
-                if (def.getOperation().equals("N")) {
-                    handleNewProductDefinition(def, errors);
+                if (def.getOperation() == null) {
+                    errors.add("Missing operation type for product with key " + def.getProductKey());
+                } else if (def.getOperation().equals("N")) {
+                    if (def.getProductKey() == null) errors.add("New - Missing product key.");
+                    else if (def.getDescription() == null || def.getType() == null || def.getRate() == null || def.getPayRate() == null || def.getPayRate().getUnit() == null || def.getPayRate().getValue() == null) {
+                        errors.add("New - Incomplete data for product with key " + def.getProductKey());
+                    }
+                    else handleNewProductDefinition(def, errors);
                 } else if (def.getOperation().equals("U")) {
-                    handleUpdatedProductDefinition(def, errors);
+                    if (def.getProductKey() == null) errors.add("Update - Missing product key.");
+                    else if (def.getRate() == null || def.getPayRate() == null ||def.getPayRate().getUnit() == null || def.getPayRate().getValue() == null) {
+                        errors.add("Update - Incomplete data for product with key " + def.getProductKey());
+                    }
+                    else handleUpdatedProductDefinition(def, errors);
                 }
             }
         } catch (IllegalArgumentException e) {
