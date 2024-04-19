@@ -36,10 +36,12 @@ public class ClientProduct {
         if (unit.equals("DAY")) nextPayment = createdAt.plusDays(value);
         else if (unit.equals("MONTH")) nextPayment = createdAt.plusDays(value * 30L);
     }
-
-    public ClientProduct(Client client, Product product, Double balance) {
+    public ClientProduct(Client client, Product product, Double balance, Double fixedPayment, Double originalLoan, Integer numberOfPayments) {
         this.client = client;
         this.product = product;
         this.balance = balance;
+        this.fixedPayment = fixedPayment;
+        this.originalLoan = originalLoan;
+        this.numberOfPayments = numberOfPayments;
     }
 }
