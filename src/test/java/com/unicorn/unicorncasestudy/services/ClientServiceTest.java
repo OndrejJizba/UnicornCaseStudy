@@ -39,7 +39,7 @@ class ClientServiceTest {
     void feePaymentTest() {
         LocalDate today = LocalDate.now();
         Product product = new Product("AAAAAA", "personal account", "ACCOUNT", 300.0, "DAY", "20");
-        ClientProduct clientProduct = new ClientProduct(new Client(), product, 1000.0, 100.0, 500.0, 5);
+        ClientProduct clientProduct = new ClientProduct(new Client(), product, 1000.0);
         clientProduct.setNextPayment(today);
         List<ClientProduct> todayPayments = List.of(clientProduct);
         when(clientProductRepository.findByNextPayment(today)).thenReturn(todayPayments);

@@ -25,19 +25,16 @@ public class ClientServiceImp implements ClientService {
         List<ClientProduct> todayPayments = clientProductRepository.findByNextPayment(LocalDate.now());
         for (ClientProduct clientProduct : todayPayments) {
             Product product = clientProduct.getProduct();
-            double amountToPay = calculatePaymentAmount(product, clientProduct.getFixedPayment(), clientProduct.getOriginalLoan(), clientProduct.getNumberOfPayments());
+            double amountToPay = 0;
+            if (product.getType().equals("LOAN")) {
+                amountToPay = clientProduct.getLoanProductDetail().getFixedPayment() + (clientProduct.getLoanProductDetail().getOriginalLoan() * product.getRate()) / clientProduct.getLoanProductDetail().getNumberOfPayments();
+            } else if (product.getType().equals("ACCOUNT")) {
+                amountToPay = product.getRate();
+            }
             clientProduct.setBalance(clientProduct.getBalance() - amountToPay);
             updateNextPayment(clientProduct, product.getPayRateUnit(), Integer.parseInt(product.getPayRateValue()));
             clientProductRepository.save(clientProduct);
         }
-    }
-
-    private double calculatePaymentAmount(Product product, double fixedPayment, double originalLoan, int numberOfPayments) {
-        if (product.getType().equals("ACCOUNT")) return product.getRate();
-        else if (product.getType().equals("LOAN")) {
-            return fixedPayment + (originalLoan * product.getRate()) / numberOfPayments;
-        }
-        return 0;
     }
 
     private void updateNextPayment(ClientProduct clientProduct, String unit, int value) {
